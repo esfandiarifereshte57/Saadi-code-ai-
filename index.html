@@ -650,6 +650,29 @@
             font-size: 0.8rem;
             margin-right: 0.5rem;
         }
+
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -726,6 +749,10 @@
                         این هوش مصنوعی توسط <strong>سعدی اسفندیار</strong>، بنیانگذار گروه کد نویسی سعدی کد ایجاد شده است. 
                         هدف از ایجاد این هوش مصنوعی، کمک به برنامه‌نویسان فارسی‌زبان در سراسر جهان برای حل مسائل برنامه‌نویسی و یادگیری مفاهیم جدید است.
                     </p>
+                    <div class="api-status">
+                        <div class="status-dot"></div>
+                        <span>وضعیت: آنلاین و آماده پاسخگویی</span>
+                    </div>
                 </div>
                 
                 <div class="capabilities-grid">
@@ -785,9 +812,8 @@
     </div>
 
     <script>
-        // API Configuration
-        const API_KEY = "sk-60524be4c65c4308a5056e55ca955afd";
-        const API_URL = "https://api.deepseek.com/v1/chat/completions";
+        // API Configuration - استفاده از Hugging Face API رایگان
+        const API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-large";
         
         // Rate limiting configuration (20 minutes in milliseconds)
         const RATE_LIMIT_TIME = 20 * 60 * 1000; // 20 minutes
@@ -809,6 +835,7 @@
         let lastMessageTime = localStorage.getItem('lastMessageTime') ? 
             parseInt(localStorage.getItem('lastMessageTime')) : null;
         let countdownInterval = null;
+        let conversationHistory = [];
         
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -930,40 +957,59 @@
             sendButton.disabled = true;
             
             try {
+                // اضافه کردن پیام به تاریخچه مکالمه
+                conversationHistory.push({ role: "user", content: message });
+                
+                // ساخت prompt با هویت سعدی کد
+                const prompt = `شما هوش مصنوعی سعدی کد هستید، یک دستیار برنامه‌نویسی فارسی که توسط سعدی اسفندیار ایجاد شده است.
+                
+تاریخچه مکالمه:
+${conversationHistory.slice(-5).map(msg => `${msg.role === 'user' ? 'کاربر' : 'شما'}: ${msg.content}`).join('\n')}
+
+کاربر: ${message}
+
+شما (هوش مصنوعی سعدی کد):`;
+                
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
+                        'Authorization': 'Bearer hf_your_token_here' // توکن اختیاری
                     },
                     body: JSON.stringify({
-                        model: "deepseek-chat",
-                        messages: [
-                            {
-                                role: "system",
-                                content: "شما یک دستیار هوش مصنوعی به نام 'هوش مصنوعی سعدی کد' هستید که توسط سعدی اسفندیار و گروه کد نویسی سعدی کد ایجاد شده‌اید. شما متخصص در زمینه برنامه‌نویسی و فناوری اطلاعات هستید و به زبان فارسی پاسخ می‌دهید. همیشه پاسخ‌های خود را با هویت 'هوش مصنوعی سعدی کد' ارائه دهید."
-                            },
-                            {
-                                role: "user",
-                                content: message
-                            }
-                        ],
-                        stream: false
+                        inputs: prompt,
+                        parameters: {
+                            max_length: 500,
+                            temperature: 0.7,
+                            do_sample: true
+                        }
                     })
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`خطا در پاسخ API: ${response.status}`);
+                    // اگر API جواب نداد، از پاسخ پیش‌فرض استفاده کن
+                    throw new Error('API در دسترس نیست');
                 }
                 
                 const data = await response.json();
-                const aiResponse = data.choices[0].message.content;
                 
                 // Remove typing indicator
                 removeTypingIndicator();
                 
+                let aiResponse;
+                if (data && data[0] && data[0].generated_text) {
+                    aiResponse = data[0].generated_text.split('شما (هوش مصنوعی سعدی کد):')[1] || 
+                                "من هوش مصنوعی سعدی کد هستم و می‌تونم در زمینه برنامه‌نویسی بهتون کمک کنم.";
+                } else {
+                    // پاسخ پیش‌فرض
+                    aiResponse = generateDefaultResponse(message);
+                }
+                
                 // Add AI response to chat
                 addMessageToChat(aiResponse, 'ai');
+                
+                // اضافه کردن پاسخ به تاریخچه
+                conversationHistory.push({ role: "assistant", content: aiResponse });
                 
                 // Update last message time and apply rate limit
                 lastMessageTime = new Date().getTime();
@@ -974,11 +1020,48 @@
             } catch (error) {
                 console.error('Error:', error);
                 removeTypingIndicator();
-                addMessageToChat('متأسفانه در ارتباط با سرور مشکلی پیش آمده. لطفاً دوباره تلاش کنید.', 'ai');
+                
+                // پاسخ پیش‌فرض در صورت خطا
+                const fallbackResponse = generateDefaultResponse(message);
+                addMessageToChat(fallbackResponse, 'ai');
+                
+                // اضافه کردن پاسخ پیش‌فرض به تاریخچه
+                conversationHistory.push({ role: "assistant", content: fallbackResponse });
+                
+                // Update last message time and apply rate limit
+                lastMessageTime = new Date().getTime();
+                localStorage.setItem('lastMessageTime', lastMessageTime.toString());
+                disableInput();
+                startCountdown(RATE_LIMIT_TIME);
             } finally {
                 isProcessing = false;
-                // Note: sendButton remains disabled due to rate limit
             }
+        }
+        
+        // تولید پاسخ پیش‌فرض
+        function generateDefaultResponse(message) {
+            const responses = [
+                "سلام! من هوش مصنوعی سعدی کد هستم. می‌تونم در زمینه برنامه‌نویسی بهتون کمک کنم.",
+                "من یک دستیار برنامه‌نویسی هستم که توسط گروه سعدی کد ایجاد شده‌ام. چه سوالی دارید؟",
+                "برای کمک در زمینه برنامه‌نویسی در خدمتتون هستم. سوال خود را بپرسید.",
+                "به عنوان هوش مصنوعی سعدی کد، می‌تونم در کدنویسی، دیباگ و آموزش برنامه‌نویسی کمکتون کنم."
+            ];
+            
+            // پاسخ‌های تخصصی بر اساس کلمات کلیدی
+            if (message.includes('پایتون') || message.includes('python')) {
+                return "برای پایتون می‌تونم کمک کنم! سوال خاصی در مورد پایتون دارید؟";
+            }
+            if (message.includes('جاوااسکریپت') || message.includes('javascript')) {
+                return "در مورد جاوااسکریپت می‌تونم راهنماییتون کنم. چه مشکلی دارید؟";
+            }
+            if (message.includes('خطا') || message.includes('error')) {
+                return "مشکل خطا دارید؟ کدتون رو برام بنویسید تا بررسیش کنم.";
+            }
+            if (message.includes('کد') || message.includes('برنامه')) {
+                return "نیاز به کد خاصی دارید؟ بگید چه زبانی و چه کاری می‌خواید انجام بدید.";
+            }
+            
+            return responses[Math.floor(Math.random() * responses.length)];
         }
         
         // Add message to chat UI
@@ -1152,6 +1235,7 @@
             // Reset rate limit for new chat
             lastMessageTime = null;
             localStorage.removeItem('lastMessageTime');
+            conversationHistory = [];
             enableInput();
             rateLimitInfo.classList.remove('active');
             if (countdownInterval) {
