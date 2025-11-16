@@ -3,56 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هوش مصنوعی سعدی کد | Saadi Code AI</title>
+    <title>سعدی‌کد | هوش مصنوعی پیشرفته</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-dark: #5E35B1;
+            --primary-light: #B39DDB;
+            --secondary: #26A69A;
+            --accent: #FF7043;
+            --text-dark: #E0E0E0;
+            --text-light: #B0BEC5;
+            --background: #121212;
+            --surface: #1E1E1E;
+            --surface-dark: #121212;
+            --surface-light: #2D2D2D;
+            --error: #F44336;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --shadow-1: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.6);
+            --shadow-2: 0 3px 6px rgba(0,0,0,0.7), 0 3px 6px rgba(0,0,0,0.8);
+            --shadow-3: 0 10px 20px rgba(0,0,0,0.9), 0 6px 6px rgba(0,0,0,0.9);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
-        :root {
-            --primary: #10a37f;
-            --primary-dark: #0d8c6d;
-            --primary-light: #1abc9c;
-            --secondary: #5436da;
-            --accent: #ff6b6b;
-            --dark: #343541;
-            --darker: #202123;
-            --light: #ffffff;
-            --gray: #8e8ea0;
-            --gray-light: #ececf1;
-            --gray-dark: #565869;
-            --sidebar-width: 260px;
         }
 
         body {
-            background-color: var(--dark);
-            color: var(--light);
-            min-height: 100vh;
-            display: flex;
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Sidebar Styles - مشابه ChatGPT */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--darker);
-            height: 100vh;
+        .app-container {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: fixed;
-            right: 0;
+        }
+
+        /* Landing Page Styles */
+        .landing-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #121212 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-page::before {
+            content: '';
+            position: absolute;
             top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo i {
+            font-size: 3.5rem;
+            color: white;
+        }
+
+        .brand-name {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .brand-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .app-description {
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-light);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-3);
+            background: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Chat Page Styles */
+        .chat-page {
+            display: none;
+            min-height: 100vh;
+            background-color: var(--background);
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            font-size: 1.8rem;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.9;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--surface);
             border-left: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-            z-index: 1000;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-header {
-            padding: 1rem;
+            padding: 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -62,17 +309,18 @@
             gap: 0.75rem;
             width: 100%;
             padding: 0.75rem;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            color: var(--light);
+            background: var(--primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.875rem;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .new-chat-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--primary-light);
         }
 
         .chat-history {
@@ -83,18 +331,15 @@
 
         .history-item {
             padding: 0.75rem;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            margin-bottom: 0.125rem;
+            margin-bottom: 0.25rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            color: var(--gray);
-            transition: all 0.2s ease;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: var(--text-light);
+            transition: var(--transition);
+            font-size: 0.9rem;
         }
 
         .history-item:hover {
@@ -102,178 +347,15 @@
         }
 
         .history-item.active {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(126, 87, 194, 0.2);
+            color: var(--primary-light);
         }
 
-        .sidebar-footer {
-            padding: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .user-info:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        .user-details {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .user-name {
-            font-size: 0.875rem;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-plan {
-            font-size: 0.75rem;
-            color: var(--gray);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            margin-right: var(--sidebar-width);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .chat-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--dark);
-        }
-
-        .model-badge {
-            background: var(--primary);
-            color: white;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .chat-container {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .welcome-screen {
+        .main-chat {
             flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .welcome-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .welcome-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .welcome-subtitle {
-            font-size: 1.125rem;
-            color: var(--gray);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            width: 100%;
-            max-width: 800px;
-            margin-top: 2rem;
-        }
-
-        .capability-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .capability-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
-        }
-
-        .capability-icon {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .capability-title {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .capability-desc {
-            font-size: 0.875rem;
-            color: var(--gray);
-            line-height: 1.5;
+            background: var(--surface-dark);
         }
 
         .messages-container {
@@ -283,14 +365,11 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
         }
 
         .message {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             max-width: 100%;
         }
 
@@ -300,13 +379,13 @@
         }
 
         .message-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.875rem;
+            font-size: 1rem;
             flex-shrink: 0;
             margin-top: 0.25rem;
         }
@@ -316,67 +395,67 @@
         }
 
         .ai-message .message-avatar {
-            background: linear-gradient(135deg, #5436da, #7e5bff);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
         }
 
         .message-content {
             flex: 1;
-            max-width: calc(100% - 48px);
+            max-width: 70%;
         }
 
         .message-text {
-            line-height: 1.75;
+            line-height: 1.6;
             font-size: 1rem;
             white-space: pre-wrap;
             word-wrap: break-word;
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
         }
 
         .user-message .message-text {
             background: var(--primary);
             color: white;
-            padding: 1rem 1.25rem;
-            border-radius: 18px;
             border-bottom-right-radius: 4px;
         }
 
         .ai-message .message-text {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem 1.25rem;
-            border-radius: 18px;
+            background: var(--surface-light);
+            color: var(--text-dark);
             border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .chat-input-container {
             padding: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            background: var(--dark);
+            background: var(--surface);
         }
 
         .input-wrapper {
             position: relative;
-            max-width: 768px;
+            max-width: 100%;
             margin: 0 auto;
         }
 
         .chat-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 1rem 3rem 1rem 1.25rem;
-            color: var(--light);
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1rem 3.5rem 1rem 1.25rem;
+            color: var(--text-dark);
             font-size: 1rem;
             resize: none;
             min-height: 56px;
             max-height: 200px;
-            transition: all 0.2s ease;
+            transition: var(--transition);
             line-height: 1.5;
         }
 
         .chat-input:focus {
             outline: none;
             border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--surface);
         }
 
         .input-actions {
@@ -391,16 +470,16 @@
             color: white;
             width: 32px;
             height: 32px;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
         .send-btn:hover {
-            background: var(--primary-dark);
+            background: var(--primary-light);
         }
 
         .send-btn:disabled {
@@ -418,7 +497,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--gray);
+            background: var(--primary);
             animation: typingAnimation 1.4s infinite ease-in-out;
         }
 
@@ -446,93 +525,85 @@
         }
 
         .footer {
-            text-align: center;
-            padding: 1rem;
-            background: var(--darker);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray);
-            font-size: 0.75rem;
+            background: var(--surface);
+            padding: 3rem 2rem;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .footer a {
-            color: var(--primary-light);
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 3rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .footer-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-link a {
+            color: var(--text-light);
             text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        .footer-link a:hover {
+            color: var(--primary);
         }
 
-        .mobile-menu-btn {
-            display: none;
-            background: transparent;
-            border: none;
-            color: var(--light);
-            font-size: 1.25rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            position: absolute;
-            right: 1rem;
-        }
-
-        .mobile-menu-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(100%);
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-right: 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .capabilities-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .messages-container {
-                padding: 1rem;
-            }
-            
-            .message {
-                gap: 1rem;
-            }
-            
-            .chat-input-container {
-                padding: 1rem;
-            }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
+        .copyright {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
         }
 
         .code-block {
@@ -551,168 +622,343 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.5rem;
-            color: var(--gray);
+            color: var(--text-light);
             font-size: 0.75rem;
         }
 
         .copy-code-btn {
             background: transparent;
             border: none;
-            color: var(--gray);
+            color: var(--text-light);
             cursor: pointer;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
-            transition: all 0.2s ease;
+            transition: var(--transition);
             font-size: 0.75rem;
         }
 
         .copy-code-btn:hover {
             background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
+            color: var(--text-dark);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .brand-name {
+                font-size: 2.2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <button class="new-chat-btn" id="newChatBtn">
-                <i class="fas fa-plus"></i>
-                گفتگوی جدید
-            </button>
-        </div>
-        
-        <div class="chat-history">
-            <div class="history-item active">
-                <i class="fas fa-message"></i>
-                <span>بحث درباره برنامه نویسی</span>
-            </div>
-            <div class="history-item">
-                <i class="fas fa-message"></i>
-                <span>کمک در کدنویسی پایتون</span>
-            </div>
-            <div class="history-item">
-                <i class="fas fa-message"></i>
-                <span>سوالات عمومی هوش مصنوعی</span>
-            </div>
-        </div>
-        
-        <div class="sidebar-footer">
-            <div class="user-info">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="user-details">
-                    <div class="user-name">کاربر سعدی کد</div>
-                    <div class="user-plan">سعدی اسفندیار</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="chat-header">
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="model-badge">
-                <i class="fas fa-robot"></i>
-                Saadicode1
-            </div>
-        </div>
-        
-        <div class="chat-container">
-            <div class="welcome-screen" id="welcomeScreen">
-                <div class="welcome-icon">
+    <div class="app-container">
+        <!-- Landing Page -->
+        <section class="landing-page" id="landingPage">
+            <div class="logo-container">
+                <div class="logo">
                     <i class="fas fa-robot"></i>
                 </div>
-                <h1 class="welcome-title">هوش مصنوعی سعدی کد</h1>
-                <p class="welcome-subtitle">
-                    من هوش مصنوعی سعدی کد هستم، دستیار هوشمند شما که توسط <strong>سعدی اسفندیار</strong> ایجاد شده‌ام.
-                    آماده‌ام تا در زمینه‌های مختلف به شما کمک کنم.
-                </p>
-                
-                <div class="capabilities-grid">
-                    <div class="capability-card">
-                        <div class="capability-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="capability-title">برنامه‌نویسی</h3>
-                        <p class="capability-desc">کمک در کدنویسی و دیباگ</p>
-                    </div>
-                    <div class="capability-card">
-                        <div class="capability-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3 class="capability-title">آموزش</h3>
-                        <p class="capability-desc">توضیح مفاهیم پیچیده</p>
-                    </div>
-                    <div class="capability-card">
-                        <div class="capability-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3 class="capability-title">ایده‌پردازی</h3>
-                        <p class="capability-desc">پیشنهاد راه‌حل‌های خلاقانه</p>
-                    </div>
-                    <div class="capability-card">
-                        <div class="capability-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <h3 class="capability-title">گفتگو</h3>
-                        <p class="capability-desc">پاسخ به سوالات عمومی</p>
-                    </div>
-                </div>
+                <h1 class="brand-name">سعدی کد</h1>
+                <p class="brand-subtitle">Saadi Code | هوش مصنوعی پیشرفته</p>
             </div>
-            
-            <div class="messages-container" id="messagesContainer" style="display: none;"></div>
-        </div>
-        
-        <div class="chat-input-container">
-            <div class="input-wrapper">
-                <textarea class="chat-input" id="chatInput" placeholder="پیامی به هوش مصنوعی سعدی کد بنویسید..." rows="1"></textarea>
-                <div class="input-actions">
-                    <button class="send-btn" id="sendButton">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="footer">
-        سعدی کد | Saadi Code - ساخته شده توسط سعدی اسفندیار | 
-        <a href="https://saadicode.vercel.app" target="_blank">saadicode.vercel.app</a>
+            <p class="app-description">
+                هوش مصنوعی سعدی کد، قدرتمندترین دستیار هوشمند فارسی است که توسط سعدی اسفندیار ایجاد شده است.
+                با استفاده از پیشرفته‌ترین الگوریتم‌های هوش مصنوعی، می‌تواند به سوالات شما پاسخ دهد، 
+                در برنامه‌نویسی کمک کند و مشکلات شما را حل نماید.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">گفتگوی هوشمند</h3>
+                    <p class="feature-desc">مکالمات طبیعی و پاسخ‌های دقیق به زبان فارسی</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="feature-title">کمک برنامه‌نویسی</h3>
+                    <p class="feature-desc">کدنویسی، دیباگ و آموزش مفاهیم برنامه‌نویسی</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">هوش مصنوعی پیشرفته</h3>
+                    <p class="feature-desc">با قابلیت درک و تحلیل متون پیچیده</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">پاسخ‌دهی سریع</h3>
+                    <p class="feature-desc">دریافت پاسخ‌ها در کسری از ثانیه</p>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="btn btn-primary" id="installBtn">
+                    <i class="fas fa-download"></i>
+                    نصب اپلیکیشن
+                </button>
+                <button class="btn btn-secondary" id="useInWebBtn">
+                    <i class="fas fa-globe"></i>
+                    استفاده در وب
+                </button>
+            </div>
+        </section>
+
+        <!-- Chat Page -->
+        <section class="chat-page" id="chatPage">
+            <header class="chat-header">
+                <div class="header-content">
+                    <div class="header-brand">
+                        <div class="header-logo">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="header-title">سعدی کد | هوش مصنوعی</div>
+                    </div>
+                    <div class="nav-links">
+                        <a href="#" class="nav-link" id="backToHome">
+                            <i class="fas fa-home"></i>
+                            صفحه اصلی
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-info-circle"></i>
+                            درباره ما
+                        </a>
+                        <a href="https://Rubika.ir/saadicode" class="nav-link" target="_blank">
+                            <i class="fas fa-paper-plane"></i>
+                            کانال روبیکا
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="chat-container">
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <button class="new-chat-btn" id="newChatBtn">
+                            <i class="fas fa-plus"></i>
+                            گفتگوی جدید
+                        </button>
+                    </div>
+                    
+                    <div class="chat-history">
+                        <div class="history-item active">
+                            <i class="fas fa-message"></i>
+                            <span>بحث درباره برنامه نویسی</span>
+                        </div>
+                        <div class="history-item">
+                            <i class="fas fa-message"></i>
+                            <span>کمک در کدنویسی پایتون</span>
+                        </div>
+                        <div class="history-item">
+                            <i class="fas fa-message"></i>
+                            <span>سوالات عمومی هوش مصنوعی</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="main-chat">
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-text">
+                                    سلام! من هوش مصنوعی سعدی کد هستم، دستیار هوشمند شما که توسط <strong>سعدی اسفندیار</strong> ایجاد شده‌ام.
+                                    چطور می‌تونم بهتون کمک کنم؟
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="input-wrapper">
+                            <textarea class="chat-input" id="chatInput" placeholder="پیامی به هوش مصنوعی سعدی کد بنویسید..." rows="1"></textarea>
+                            <div class="input-actions">
+                                <button class="send-btn" id="sendButton">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <i class="fas fa-robot"></i>
+                            <span class="footer-logo-text">سعدی کد</span>
+                        </div>
+                        <p class="footer-desc">
+                            هوش مصنوعی سعدی کد با هدف ایجاد دستیار هوشمند فارسی با قابلیت‌های پیشرفته 
+                            فعالیت می‌کند. این هوش مصنوعی توسط سعدی اسفندیار توسعه یافته است.
+                        </p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h3 class="footer-heading">لینک‌های مفید</h3>
+                        <ul class="footer-links">
+                            <li class="footer-link">
+                                <a href="#" id="footerHomeLink">
+                                    <i class="fas fa-chevron-left"></i>
+                                    صفحه اصلی
+                                </a>
+                            </li>
+                            <li class="footer-link">
+                                <a href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                    درباره ما
+                                </a>
+                            </li>
+                            <li class="footer-link">
+                                <a href="https://Rubika.ir/saadicode" target="_blank">
+                                    <i class="fas fa-chevron-left"></i>
+                                    کانال روبیکا : Rubika.ir/saadicode
+                                </a>
+                            </li>
+                            <li class="footer-link">
+                                <a href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                    حریم خصوصی
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h3 class="footer-heading">محصولات ما</h3>
+                        <ul class="footer-links">
+                            <li class="footer-link">
+                                <a href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                    هوش مصنوعی
+                                </a>
+                            </li>
+                            <li class="footer-link">
+                                <a href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                    ابزارهای توسعه
+                                </a>
+                            </li>
+                            <li class="footer-link">
+                                <a href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                    اپلیکیشن موبایل
+                                </a>
+                            </li>
+                            <li class="footer-link">
+                                <a href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                    خدمات ابری
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    <p>کلیه حقوق مادی و معنوی این وب‌سایت متعلق به گروه نرم‌افزاری سعدی کد می‌باشد. © ۲۰۲۵</p>
+                </div>
+            </footer>
+        </section>
     </div>
 
     <script>
-        // API Configuration
-        const API_URL = "https://gpt4.api-sina-free.workers.dev/gpt4";
-        
-        // DOM Elements
-        const sidebar = document.getElementById('sidebar');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const newChatBtn = document.getElementById('newChatBtn');
-        const welcomeScreen = document.getElementById('welcomeScreen');
-        const messagesContainer = document.getElementById('messagesContainer');
-        const chatInput = document.getElementById('chatInput');
-        const sendButton = document.getElementById('sendButton');
-        
-        // State
-        let currentConversation = [];
-        
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            const landingPage = document.getElementById('landingPage');
+            const chatPage = document.getElementById('chatPage');
+            const installBtn = document.getElementById('installBtn');
+            const useInWebBtn = document.getElementById('useInWebBtn');
+            const backToHome = document.getElementById('backToHome');
+            const footerHomeLink = document.getElementById('footerHomeLink');
+            
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            const messagesContainer = document.getElementById('messagesContainer');
+            const newChatBtn = document.getElementById('newChatBtn');
+            
+            // API Configuration
+            const API_URL = "https://gpt4.api-sina-free.workers.dev/gpt4";
+            
+            // رفتن به صفحه چت
+            useInWebBtn.addEventListener('click', function() {
+                landingPage.style.display = 'none';
+                chatPage.style.display = 'flex';
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+                chatInput.focus();
+            });
+            
+            // بازگشت به صفحه اصلی
+            backToHome.addEventListener('click', function(e) {
+                e.preventDefault();
+                chatPage.style.display = 'none';
+                landingPage.style.display = 'flex';
+            });
+            
+            footerHomeLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                chatPage.style.display = 'none';
+                landingPage.style.display = 'flex';
+            });
+            
+            // شبیه‌سازی نصب اپلیکیشن
+            installBtn.addEventListener('click', function() {
+                alert('اپلیکیشن سعدی کد در حال حاضر فقط در نسخه وب در دسترس است. به زودی نسخه موبایل نیز منتشر خواهد شد.');
+            });
+            
             // Auto-resize textarea
             chatInput.addEventListener('input', function() {
                 this.style.height = 'auto';
                 this.style.height = (this.scrollHeight) + 'px';
             });
             
-            // Send message on button click
+            // ارسال پیام
             sendButton.addEventListener('click', sendMessage);
             
-            // Send message on Enter (but allow Shift+Enter for new line)
+            // ارسال پیام با کلید Enter
             chatInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -720,208 +966,204 @@
                 }
             });
             
-            // New chat button
+            // شروع چت جدید
             newChatBtn.addEventListener('click', startNewChat);
             
-            // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('open');
-            });
-        });
-        
-        // Send message to API
-        async function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-            
-            // Hide welcome screen and show messages container
-            if (welcomeScreen.style.display !== 'none') {
-                welcomeScreen.style.display = 'none';
-                messagesContainer.style.display = 'flex';
+            // تابع ارسال پیام
+            async function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // اضافه کردن پیام کاربر به چت
+                addMessageToChat(message, 'user');
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+                
+                // نمایش نشانگر تایپینگ
+                showTypingIndicator();
+                
+                // غیرفعال کردن دکمه ارسال
+                sendButton.disabled = true;
+                chatInput.disabled = true;
+
+                try {
+                    // فراخوانی API
+                    const response = await fetch(`${API_URL}?text=${encodeURIComponent(message)}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`خطا در ارتباط با سرور: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    const aiResponse = data.result || data.Result;
+                    
+                    // حذف نشانگر تایپینگ
+                    removeTypingIndicator();
+                    
+                    // اضافه کردن پاسخ هوش مصنوعی به چت
+                    addMessageToChat(aiResponse, 'ai');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    removeTypingIndicator();
+                    addMessageToChat('متأسفانه در ارتباط با سرور مشکلی پیش آمده. لطفاً دوباره تلاش کنید.', 'ai');
+                } finally {
+                    sendButton.disabled = false;
+                    chatInput.disabled = false;
+                    chatInput.focus();
+                }
             }
             
-            // Add user message to chat
-            addMessageToChat(message, 'user');
-            chatInput.value = '';
-            chatInput.style.height = 'auto';
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            // Disable input while processing
-            sendButton.disabled = true;
-            chatInput.disabled = true;
-
-            try {
-                // Call API
-                const response = await fetch(`${API_URL}?text=${encodeURIComponent(message)}`);
+            // اضافه کردن پیام به چت
+            function addMessageToChat(message, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
                 
-                if (!response.ok) {
-                    throw new Error(`خطا در ارتباط با سرور: ${response.status}`);
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'message-avatar';
+                
+                const avatarIcon = document.createElement('i');
+                avatarIcon.className = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
+                avatarDiv.appendChild(avatarIcon);
+                
+                const messageContentDiv = document.createElement('div');
+                messageContentDiv.className = 'message-content';
+                
+                const messageTextDiv = document.createElement('div');
+                messageTextDiv.className = 'message-text';
+                
+                // فرمت‌بندی پیام با بلاک‌های کد
+                const formattedMessage = formatMessage(message);
+                messageTextDiv.innerHTML = formattedMessage;
+                
+                messageContentDiv.appendChild(messageTextDiv);
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(messageContentDiv);
+                
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // اضافه کردن قابلیت کپی برای بلاک‌های کد
+                addCodeBlockCopyButtons();
+            }
+            
+            // فرمت‌بندی پیام با بلاک‌های کد
+            function formatMessage(message) {
+                let formatted = message.replace(/\n/g, '<br>');
+                
+                // تشخیص بلاک‌های کد (بین ```)
+                const codeBlockRegex = /```(\w+)?\s*([\s\S]*?)```/g;
+                formatted = formatted.replace(codeBlockRegex, function(match, language, code) {
+                    return `<div class="code-block">
+                        <div class="code-header">
+                            <span>${language || 'کد'}</span>
+                            <button class="copy-code-btn" data-code="${encodeURIComponent(code)}">
+                                <i class="fas fa-copy"></i> کپی
+                            </button>
+                        </div>
+                        <pre>${code}</pre>
+                    </div>`;
+                });
+                
+                return formatted;
+            }
+            
+            // اضافه کردن دکمه کپی برای بلاک‌های کد
+            function addCodeBlockCopyButtons() {
+                const codeBlocks = document.querySelectorAll('.code-block');
+                codeBlocks.forEach(block => {
+                    const copyBtn = block.querySelector('.copy-code-btn');
+                    const code = decodeURIComponent(copyBtn.getAttribute('data-code'));
+                    
+                    copyBtn.addEventListener('click', function() {
+                        copyToClipboard(code);
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> کپی شد!';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i> کپی';
+                        }, 2000);
+                    });
+                });
+            }
+            
+            // کپی به کلیپ‌بورد
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            
+            // نمایش نشانگر تایپینگ
+            function showTypingIndicator() {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message ai-message';
+                messageDiv.id = 'typingIndicator';
+                
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'message-avatar';
+                
+                const avatarIcon = document.createElement('i');
+                avatarIcon.className = 'fas fa-robot';
+                avatarDiv.appendChild(avatarIcon);
+                
+                const messageContentDiv = document.createElement('div');
+                messageContentDiv.className = 'message-content';
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    typingDiv.appendChild(dot);
                 }
                 
-                const data = await response.json();
-                const aiResponse = data.result || data.Result;
+                messageContentDiv.appendChild(typingDiv);
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(messageContentDiv);
                 
-                // Remove typing indicator
-                removeTypingIndicator();
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // حذف نشانگر تایپینگ
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            // شروع چت جدید
+            function startNewChat() {
+                // پاک کردن محتوای چت
+                while (messagesContainer.firstChild) {
+                    messagesContainer.removeChild(messagesContainer.firstChild);
+                }
                 
-                // Add AI response to chat
-                addMessageToChat(aiResponse, 'ai');
+                // اضافه کردن پیام خوشامدگویی
+                const welcomeMessage = document.createElement('div');
+                welcomeMessage.className = 'message ai-message';
+                welcomeMessage.innerHTML = `
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            سلام! من هوش مصنوعی سعدی کد هستم، دستیار هوشمند شما که توسط <strong>سعدی اسفندیار</strong> ایجاد شده‌ام.
+                            چطور می‌تونم بهتون کمک کنم؟
+                        </div>
+                    </div>
+                `;
                 
-            } catch (error) {
-                console.error('Error:', error);
-                removeTypingIndicator();
-                addMessageToChat('متأسفانه در ارتباط با سرور مشکلی پیش آمده. لطفاً دوباره تلاش کنید.', 'ai');
-            } finally {
-                sendButton.disabled = false;
-                chatInput.disabled = false;
+                messagesContainer.appendChild(welcomeMessage);
+                
+                // تمرکز روی فیلد ورودی
                 chatInput.focus();
             }
-        }
-        
-        // Add message to chat UI
-        function addMessageToChat(message, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-            
-            const avatarDiv = document.createElement('div');
-            avatarDiv.className = 'message-avatar';
-            
-            const avatarIcon = document.createElement('i');
-            avatarIcon.className = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
-            avatarDiv.appendChild(avatarIcon);
-            
-            const messageContentDiv = document.createElement('div');
-            messageContentDiv.className = 'message-content';
-            
-            const messageTextDiv = document.createElement('div');
-            messageTextDiv.className = 'message-text';
-            
-            // Format message with code blocks if needed
-            const formattedMessage = formatMessage(message);
-            messageTextDiv.innerHTML = formattedMessage;
-            
-            messageContentDiv.appendChild(messageTextDiv);
-            messageDiv.appendChild(avatarDiv);
-            messageDiv.appendChild(messageContentDiv);
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            // Add copy functionality to code blocks
-            addCodeBlockCopyButtons();
-        }
-        
-        // Format message with code blocks
-        function formatMessage(message) {
-            let formatted = message.replace(/\n/g, '<br>');
-            
-            // Detect code blocks (between ```)
-            const codeBlockRegex = /```(\w+)?\s*([\s\S]*?)```/g;
-            formatted = formatted.replace(codeBlockRegex, function(match, language, code) {
-                return `<div class="code-block">
-                    <div class="code-header">
-                        <span>${language || 'کد'}</span>
-                        <button class="copy-code-btn" data-code="${encodeURIComponent(code)}">
-                            <i class="fas fa-copy"></i> کپی
-                        </button>
-                    </div>
-                    <pre>${code}</pre>
-                </div>`;
-            });
-            
-            return formatted;
-        }
-        
-        // Add copy buttons to code blocks
-        function addCodeBlockCopyButtons() {
-            const codeBlocks = document.querySelectorAll('.code-block');
-            codeBlocks.forEach(block => {
-                const copyBtn = block.querySelector('.copy-code-btn');
-                const code = decodeURIComponent(copyBtn.getAttribute('data-code'));
-                
-                copyBtn.addEventListener('click', function() {
-                    copyToClipboard(code);
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i> کپی شد!';
-                    setTimeout(() => {
-                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> کپی';
-                    }, 2000);
-                });
-            });
-        }
-        
-        // Copy text to clipboard
-        function copyToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-        }
-        
-        // Show typing indicator
-        function showTypingIndicator() {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ai-message';
-            messageDiv.id = 'typingIndicator';
-            
-            const avatarDiv = document.createElement('div');
-            avatarDiv.className = 'message-avatar';
-            
-            const avatarIcon = document.createElement('i');
-            avatarIcon.className = 'fas fa-robot';
-            avatarDiv.appendChild(avatarIcon);
-            
-            const messageContentDiv = document.createElement('div');
-            messageContentDiv.className = 'message-content';
-            
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            
-            for (let i = 0; i < 3; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'typing-dot';
-                typingDiv.appendChild(dot);
-            }
-            
-            messageContentDiv.appendChild(typingDiv);
-            messageDiv.appendChild(avatarDiv);
-            messageDiv.appendChild(messageContentDiv);
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-        
-        // Remove typing indicator
-        function removeTypingIndicator() {
-            const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-        
-        // Start a new chat
-        function startNewChat() {
-            // Clear messages container
-            while (messagesContainer.firstChild) {
-                messagesContainer.removeChild(messagesContainer.firstChild);
-            }
-            
-            // Show welcome screen
-            welcomeScreen.style.display = 'flex';
-            messagesContainer.style.display = 'none';
-            
-            // Clear conversation history
-            currentConversation = [];
-            
-            // Close mobile sidebar if open
-            sidebar.classList.remove('open');
-            
-            // Focus on input
-            chatInput.focus();
-        }
+        });
     </script>
 </body>
 </html>
