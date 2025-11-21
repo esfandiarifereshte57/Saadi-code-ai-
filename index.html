@@ -205,32 +205,6 @@
             align-items: center;
         }
         
-        .mode-selector {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .mode-btn {
-            background-color: var(--primary-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .mode-btn.active {
-            background-color: var(--accent-color);
-            color: var(--primary-bg);
-            border-color: var(--accent-color);
-        }
-        
-        .mode-btn:hover:not(.active) {
-            background-color: var(--secondary-bg);
-        }
-        
         .chat-area {
             flex: 1;
             overflow-y: auto;
@@ -425,11 +399,6 @@
                 gap: 15px;
             }
             
-            .mode-selector {
-                width: 100%;
-                justify-content: center;
-            }
-            
             .hero-title {
                 font-size: 2rem;
             }
@@ -602,20 +571,26 @@
                 try {
                     const apiUrl = `https://gpt4.api-sina-free.workers.dev/gpt4?text=${encodeURIComponent(message)}`;
                     
-                    const response = await fetch(apiUrl, {
-                        method: 'GET',
-                        mode: 'cors'
-                    });
+                    console.log('در حال ارسال درخواست به:', apiUrl);
+                    
+                    const response = await fetch(apiUrl);
                     
                     if (!response.ok) {
                         throw new Error(`خطا در دریافت پاسخ: ${response.status}`);
                     }
                     
                     const data = await response.json();
+                    console.log('پاسخ دریافت شد:', data);
                     
                     // نمایش پاسخ
                     hideTypingIndicator();
-                    addMessage(data.result || data.Result || 'پاسخی دریافت نشد.', 'bot');
+                    
+                    if (data.result || data.Result) {
+                        addMessage(data.result || data.Result, 'bot');
+                    } else {
+                        addMessage('پاسخی دریافت نشد. لطفاً دوباره تلاش کنید.', 'error');
+                    }
+                    
                     setInputState(true);
                     updateAPIStatus(true);
                     
@@ -631,10 +606,7 @@
             // تست اتصال به API
             async function testAPIConnection() {
                 try {
-                    const testResponse = await fetch('https://gpt4.api-sina-free.workers.dev/gpt4?text=سلام', {
-                        method: 'GET',
-                        mode: 'cors'
-                    });
+                    const testResponse = await fetch('https://gpt4.api-sina-free.workers.dev/gpt4?text=سلام');
                     updateAPIStatus(testResponse.ok);
                 } catch (error) {
                     updateAPIStatus(false);
