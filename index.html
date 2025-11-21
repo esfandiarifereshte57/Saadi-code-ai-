@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>چت بات پیشرفته سعدی کد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-bg: #0a0a0a;
@@ -285,6 +286,7 @@
             padding: 15px 20px;
             background-color: var(--secondary-bg);
             border-top: 1px solid var(--border-color);
+            align-items: center;
         }
         
         .input-area input {
@@ -302,25 +304,32 @@
             border-color: var(--accent-color);
         }
         
-        .input-area button {
+        .send-btn {
             background-color: var(--accent-color);
             color: var(--primary-bg);
             border: none;
-            border-radius: 25px;
-            padding: 12px 25px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             margin-right: 10px;
             cursor: pointer;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: background-color 0.3s ease;
         }
         
-        .input-area button:hover {
+        .send-btn:hover {
             background-color: var(--hover-color);
         }
         
-        .input-area button:disabled {
+        .send-btn:disabled {
             background-color: var(--border-color);
             cursor: not-allowed;
+        }
+        
+        .send-btn i {
+            font-size: 1.2rem;
         }
         
         .typing-indicator {
@@ -444,59 +453,6 @@
                 align-items: center;
             }
         }
-        
-        /* انیمیشن بارگذاری */
-        .loading-dots {
-            display: inline-block;
-            position: relative;
-            width: 40px;
-            height: 10px;
-        }
-        
-        .loading-dots div {
-            position: absolute;
-            top: 0;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            animation-timing-function: cubic-bezier(0, 1, 1, 0);
-        }
-        
-        .loading-dots div:nth-child(1) {
-            left: 4px;
-            animation: loading-dots1 0.6s infinite;
-        }
-        
-        .loading-dots div:nth-child(2) {
-            left: 4px;
-            animation: loading-dots2 0.6s infinite;
-        }
-        
-        .loading-dots div:nth-child(3) {
-            left: 16px;
-            animation: loading-dots2 0.6s infinite;
-        }
-        
-        .loading-dots div:nth-child(4) {
-            left: 28px;
-            animation: loading-dots3 0.6s infinite;
-        }
-        
-        @keyframes loading-dots1 {
-            0% { transform: scale(0); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes loading-dots3 {
-            0% { transform: scale(1); }
-            100% { transform: scale(0); }
-        }
-        
-        @keyframes loading-dots2 {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(12px, 0); }
-        }
     </style>
 </head>
 <body>
@@ -577,7 +533,9 @@
         
         <div class="input-area">
             <input type="text" id="userInput" placeholder="پیام خود را اینجا تایپ کنید...">
-            <button id="sendBtn">ارسال</button>
+            <button class="send-btn" id="sendBtn" title="ارسال پیام">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
         
         <div class="footer">
@@ -752,26 +710,6 @@
                     
                 } catch (error) {
                     console.error('خطا در ارتباط با GPT-4:', error);
-                    
-                    // تلاش با API جایگزین
-                    try {
-                        const fallbackResponse = await fetch(`https://api.majidapi.ir/chatgpt/chat?q=${encodeURIComponent(message)}`, {
-                            method: 'GET',
-                            mode: 'cors'
-                        });
-                        
-                        if (fallbackResponse.ok) {
-                            const fallbackData = await fallbackResponse.json();
-                            hideTypingIndicator();
-                            addMessage(fallbackData.result || fallbackData.answer || 'پاسخی دریافت نشد.', 'bot');
-                            setInputState(true);
-                            updateAPIStatus('gpt', true);
-                            return;
-                        }
-                    } catch (fallbackError) {
-                        console.error('خطا در API جایگزین:', fallbackError);
-                    }
-                    
                     hideTypingIndicator();
                     addMessage(`خطا در ارتباط با GPT-4: ${error.message}. لطفاً دوباره تلاش کنید.`, 'error');
                     setInputState(true);
