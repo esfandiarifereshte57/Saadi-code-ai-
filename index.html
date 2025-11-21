@@ -31,8 +31,163 @@
             overflow: hidden;
         }
         
-        .chat-container {
+        /* صفحه لندینگ */
+        .landing-page {
+            height: 100vh;
             display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #0a0a0a 0%, #001a0f 100%);
+            overflow-y: auto;
+        }
+        
+        .landing-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        
+        .download-app-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .download-app-btn:hover {
+            background-color: var(--hover-color);
+        }
+        
+        .hero-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent-color), #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .ai-features {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .feature-card {
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            width: 250px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        
+        .feature-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+        
+        .cta-section {
+            margin: 40px 0;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .cta-btn {
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .install-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+        }
+        
+        .install-btn:hover {
+            background-color: var(--hover-color);
+            transform: scale(1.05);
+        }
+        
+        .web-btn {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .web-btn:hover {
+            background-color: rgba(0, 255, 136, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--secondary-bg);
+        }
+        
+        /* صفحه چت */
+        .chat-container {
+            display: none;
             flex-direction: column;
             height: 100vh;
             max-width: 1200px;
@@ -48,24 +203,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo h1 {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-        
-        .logo span {
-            font-size: 0.9rem;
-            color: var(--text-color);
-            opacity: 0.8;
         }
         
         .mode-selector {
@@ -218,20 +355,12 @@
             30% { transform: translateY(-5px); }
         }
         
-        .footer {
-            text-align: center;
-            padding: 10px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            border-top: 1px solid var(--border-color);
-            background-color: var(--secondary-bg);
-        }
-        
         .api-status {
             display: flex;
             gap: 15px;
             font-size: 0.8rem;
             margin-top: 5px;
+            justify-content: center;
         }
         
         .status-item {
@@ -264,20 +393,24 @@
         }
         
         /* اسکرول بار سفارشی */
-        .chat-area::-webkit-scrollbar {
+        .chat-area::-webkit-scrollbar,
+        .landing-page::-webkit-scrollbar {
             width: 6px;
         }
         
-        .chat-area::-webkit-scrollbar-track {
+        .chat-area::-webkit-scrollbar-track,
+        .landing-page::-webkit-scrollbar-track {
             background: var(--primary-bg);
         }
         
-        .chat-area::-webkit-scrollbar-thumb {
+        .chat-area::-webkit-scrollbar-thumb,
+        .landing-page::-webkit-scrollbar-thumb {
             background: var(--border-color);
             border-radius: 3px;
         }
         
-        .chat-area::-webkit-scrollbar-thumb:hover {
+        .chat-area::-webkit-scrollbar-thumb:hover,
+        .landing-page::-webkit-scrollbar-thumb:hover {
             background: var(--accent-color);
         }
         
@@ -297,14 +430,125 @@
                 justify-content: center;
             }
             
-            .api-status {
-                justify-content: center;
+            .hero-title {
+                font-size: 2rem;
             }
+            
+            .ai-features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* انیمیشن بارگذاری */
+        .loading-dots {
+            display: inline-block;
+            position: relative;
+            width: 40px;
+            height: 10px;
+        }
+        
+        .loading-dots div {
+            position: absolute;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        
+        .loading-dots div:nth-child(1) {
+            left: 4px;
+            animation: loading-dots1 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(2) {
+            left: 4px;
+            animation: loading-dots2 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(3) {
+            left: 16px;
+            animation: loading-dots2 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(4) {
+            left: 28px;
+            animation: loading-dots3 0.6s infinite;
+        }
+        
+        @keyframes loading-dots1 {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes loading-dots3 {
+            0% { transform: scale(1); }
+            100% { transform: scale(0); }
+        }
+        
+        @keyframes loading-dots2 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(12px, 0); }
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
+    <!-- صفحه لندینگ -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-header">
+            <div class="logo">
+                <h1>چت بات پیشرفته سعدی کد</h1>
+            </div>
+            <button class="download-app-btn" onclick="scrollToDownload()">دانلود اپلیکیشن</button>
+        </div>
+        
+        <div class="hero-section">
+            <h1 class="hero-title">هوش مصنوعی نسل جدید</h1>
+            <p class="hero-subtitle">
+                با چت بات پیشرفته سعدی کد، قدرتمندترین هوش مصنوعی را در دستان خود داشته باشید. 
+                طراحی شده توسط سعدی اسفندیار با قابلیت‌های منحصر به فرد و رابط کاربری پیشرفته.
+            </p>
+            
+            <div class="ai-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">هوش مصنوعی GPT-4</h3>
+                    <p class="feature-description">استفاده از پیشرفته‌ترین مدل زبانی برای پاسخ‌های دقیق و هوشمند</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">پاسخ‌های سریع</h3>
+                    <p class="feature-description">سرعت بالا در پردازش و ارائه پاسخ بدون تأخیر قابل توجه</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">حریم خصوصی</h3>
+                    <p class="feature-description">اطمینان از امنیت کامل داده‌ها و محرمانگی اطلاعات کاربران</p>
+                </div>
+            </div>
+            
+            <div class="cta-section" id="downloadSection">
+                <button class="cta-btn install-btn">نصب اپلیکیشن</button>
+                <button class="cta-btn web-btn" onclick="showChatPage()">استفاده در وب</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div>طراحی و توسعه توسط تیم سعدی کد - سعدی اسفندیار - ۲۰۲۵</div>
+        </div>
+    </div>
+    
+    <!-- صفحه چت -->
+    <div class="chat-container" id="chatContainer">
         <div class="header">
             <div class="logo">
                 <h1>چت بات پیشرفته سعدی کد</h1>
@@ -313,8 +557,6 @@
             <div class="mode-selector">
                 <button class="mode-btn active" data-mode="gpt4">GPT-4</button>
                 <button class="mode-btn" data-mode="copilot">Copilot</button>
-                <button class="mode-btn" data-mode="creative">خلاقانه</button>
-                <button class="mode-btn" data-mode="precise">دقیق</button>
             </div>
         </div>
         
@@ -354,15 +596,28 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // تابع برای اسکرول به بخش دانلود
+        function scrollToDownload() {
+            document.getElementById('downloadSection').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+        
+        // تابع برای نمایش صفحه چت
+        function showChatPage() {
+            document.getElementById('landingPage').style.display = 'none';
+            document.getElementById('chatContainer').style.display = 'flex';
+            initChat();
+        }
+        
+        // تابع مقداردهی اولیه چت
+        function initChat() {
             const chatArea = document.getElementById('chatArea');
             const userInput = document.getElementById('userInput');
             const sendBtn = document.getElementById('sendBtn');
             const typingIndicator = document.getElementById('typingIndicator');
             const modeButtons = document.querySelectorAll('.mode-btn');
             const chatContainer = document.querySelector('.chat-container');
-            const gptStatus = document.getElementById('gptStatus');
-            const copilotStatus = document.getElementById('copilotStatus');
             
             let currentMode = 'gpt4';
             let copilotChatId = null;
@@ -421,13 +676,6 @@
                     sendToCopilot(message);
                 } else if (currentMode === 'gpt4') {
                     sendToGPT4(message);
-                } else {
-                    // برای حالت‌های دیگر از پاسخ‌های محلی استفاده می‌کنیم
-                    setTimeout(() => {
-                        hideTypingIndicator();
-                        generateLocalResponse(message);
-                        setInputState(true);
-                    }, 1000);
                 }
             }
             
@@ -483,7 +731,6 @@
             // ارسال به GPT-4 API
             async function sendToGPT4(message) {
                 try {
-                    // استفاده از API جایگزین در صورت نیاز
                     const apiUrl = `https://gpt4.api-sina-free.workers.dev/gpt4?text=${encodeURIComponent(message)}`;
                     
                     const response = await fetch(apiUrl, {
@@ -530,31 +777,6 @@
                     setInputState(true);
                     updateAPIStatus('gpt', false);
                 }
-            }
-            
-            // تولید پاسخ محلی برای حالت‌های دیگر
-            function generateLocalResponse(message) {
-                let response = '';
-                
-                if (currentMode === 'creative') {
-                    const creativeResponses = [
-                        `از سوال جالب شما متشکرم! از دیدگاه خلاقانه، "${message}" می‌تواند به روش‌های مختلفی تفسیر شود.`,
-                        `چه سوال الهام‌بخشی! به عنوان یک هوش مصنوعی خلاق، فکر می‌کنم "${message}" فرصتی برای نوآوری است.`,
-                        `دیدگاه جالبی دارید! از زاویه خلاقانه، "${message}" می‌تواند دریچه‌ای به سوی ایده‌های جدید باشد.`,
-                        `سوال شما مرا به فکر واداشت! در حالت خلاقانه، "${message}" را می‌توان به شکل هنری و نوآورانه‌ای بررسی کرد.`
-                    ];
-                    response = creativeResponses[Math.floor(Math.random() * creativeResponses.length)];
-                } else if (currentMode === 'precise') {
-                    const preciseResponses = [
-                        `بر اساس تحلیل دقیق، سوال "${message}" نیاز به بررسی جزئیات دارد. در حالت دقیق، باید تمام جوانب را در نظر گرفت.`,
-                        `در حالت دقیق، سوال "${message}" را می‌توان به بخش‌های کوچکتر تقسیم و دقیقاً بررسی کرد.`,
-                        `از دیدگاه تحلیلی، "${message}" نیازمند بررسی سیستماتیک و دقیق است.`,
-                        `به عنوان یک دستیار دقیق، سوال "${message}" را با جزئیات کامل بررسی خواهم کرد. ابتدا باید پارامترهای مختلف را تعریف کنیم.`
-                    ];
-                    response = preciseResponses[Math.floor(Math.random() * preciseResponses.length)];
-                }
-                
-                addMessage(response, 'bot');
             }
             
             // تست اتصال به APIها
@@ -651,9 +873,7 @@
             function getModeName(mode) {
                 const modeNames = {
                     'gpt4': 'GPT-4',
-                    'copilot': 'Copilot',
-                    'creative': 'خلاقانه',
-                    'precise': 'دقیق'
+                    'copilot': 'Copilot'
                 };
                 return modeNames[mode] || mode;
             }
@@ -661,7 +881,7 @@
             // تنظیم حالت اولیه
             chatContainer.classList.add('gpt4-mode');
             userInput.focus();
-        });
+        }
     </script>
 </body>
 </html>
