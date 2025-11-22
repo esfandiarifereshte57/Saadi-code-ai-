@@ -566,17 +566,28 @@
                 sendToAI(message);
             }
             
-            // ارسال به API هوش مصنوعی
+            // ارسال به API هوش مصنوعی با استفاده از Proxy برای دور زدن CORS
             async function sendToAI(message) {
                 try {
-                    const apiUrl = `https://gpt4.api-sina-free.workers.dev/gpt4?text=${encodeURIComponent(message)}`;
+                    // استفاده از encodeURIComponent برای کدگذاری صحیح متن
+                    const encodedMessage = encodeURIComponent(message);
+                    const apiUrl = `https://gpt4.api-sina-free.workers.dev/gpt4?text=${encodedMessage}`;
                     
                     console.log('در حال ارسال درخواست به:', apiUrl);
                     
-                    const response = await fetch(apiUrl);
+                    // استفاده از no-cors mode اگر CORS مشکل دارد
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    console.log('وضعیت پاسخ:', response.status, response.statusText);
                     
                     if (!response.ok) {
-                        throw new Error(`خطا در دریافت پاسخ: ${response.status}`);
+                        throw new Error(`خطا در دریافت پاسخ: ${response.status} ${response.statusText}`);
                     }
                     
                     const data = await response.json();
@@ -585,10 +596,10 @@
                     // نمایش پاسخ
                     hideTypingIndicator();
                     
-                    if (data.result || data.Result) {
+                    if (data && (data.result || data.Result)) {
                         addMessage(data.result || data.Result, 'bot');
                     } else {
-                        addMessage('پاسخی دریافت نشد. لطفاً دوباره تلاش کنید.', 'error');
+                        addMessage('پاسخی دریافت نشد. ساختار پاسخ غیرمنتظره است.', 'error');
                     }
                     
                     setInputState(true);
@@ -597,10 +608,52 @@
                 } catch (error) {
                     console.error('خطا در ارتباط با API:', error);
                     hideTypingIndicator();
-                    addMessage(`خطا در ارتباط با سرور: ${error.message}. لطفاً دوباره تلاش کنید.`, 'error');
-                    setInputState(true);
-                    updateAPIStatus(false);
+                    
+                    // تلاش با روش جایگزین - استفاده از JSONP یا Proxy
+                    try {
+                        await tryAlternativeMethod(message);
+                    } catch (fallbackError) {
+                        console.error('روش جایگزین نیز شکست خورد:', fallbackError);
+                        addMessage(`خطا در ارتباط با سرور: ${error.message}. لطفاً دوباره تلاش کنید.`, 'error');
+                        setInputState(true);
+                        updateAPIStatus(false);
+                    }
                 }
+            }
+            
+            // روش جایگزین برای دور زدن CORS
+            async function tryAlternativeMethod(message) {
+                // استفاده از CORS Proxy
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const apiUrl = `https://gpt4.api-sina-free.workers.dev/gpt4?text=${encodeURIComponent(message)}`;
+                const fullUrl = proxyUrl + apiUrl;
+                
+                console.log('تلاش با CORS Proxy:', fullUrl);
+                
+                const response = await fetch(fullUrl, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`خطا در دریافت پاسخ از Proxy: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('پاسخ از Proxy دریافت شد:', data);
+                
+                hideTypingIndicator();
+                
+                if (data && (data.result || data.Result)) {
+                    addMessage(data.result || data.Result, 'bot');
+                } else {
+                    addMessage('پاسخی از طریق Proxy دریافت نشد.', 'error');
+                }
+                
+                setInputState(true);
+                updateAPIStatus(true);
             }
             
             // تست اتصال به API
@@ -608,7 +661,13 @@
                 try {
                     const testResponse = await fetch('https://gpt4.api-sina-free.workers.dev/gpt4?text=سلام');
                     updateAPIStatus(testResponse.ok);
+                    
+                    if (testResponse.ok) {
+                        const testData = await testResponse.json();
+                        console.log('تست API موفق:', testData);
+                    }
                 } catch (error) {
+                    console.error('تست API ناموفق:', error);
                     updateAPIStatus(false);
                 }
             }
